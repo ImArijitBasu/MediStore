@@ -1,23 +1,17 @@
 "use client";
 
-import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
-
+import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import {
   Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import {
   Sheet,
@@ -28,6 +22,7 @@ import {
 } from "@/components/ui/sheet";
 import { ModeToggle } from "./themeControl";
 import Link from "next/link";
+import Image from "next/image";
 
 interface MenuItem {
   title: string;
@@ -61,10 +56,10 @@ interface NavbarProps {
 
 const Navbar = ({
   logo = {
-    url: "https://www.shadcnblocks.com",
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
+    url: "/",
+    src: "/logo.jpg",
     alt: "logo",
-    title: "Shadcnblocks.com",
+    title: "MediStore",
   },
   menu = [
     { title: "Home", url: "/" },
@@ -91,9 +86,11 @@ const Navbar = ({
           <div className="flex items-center gap-6">
             {/* Logo */}
             <Link href={logo.url} className="flex items-center gap-2">
-              <img
+              <Image
                 src={logo.src}
-                className="max-h-8 dark:invert"
+                width={400}
+                height={400}
+                className="max-h-8 max-w-8 dark:invert"
                 alt={logo.alt}
               />
               <span className="text-lg font-semibold tracking-tighter">
