@@ -1,8 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { userService } from "@/services/user.service";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+    const { data } = await userService.getSession();
+    const userInfo = data?.user.email;
+    console.log("user info from homepage", userInfo);
   return (
     <div className="container mx-auto flex flex-col items-center justify-center min-h-screen p-4">
       <h1 className="text-4xl font-bold mb-4">Welcome to Medistore</h1>
