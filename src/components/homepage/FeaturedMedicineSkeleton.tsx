@@ -1,7 +1,7 @@
 // components/home/FeaturedMedicinesSkeleton.tsx
 export const FeaturedMedicinesSkeleton = () => {
   return (
-    <section className="py-12 bg-gradient-to-b from-white to-blue-50">
+    <section className="py-12 bg-linear-to-b from-white to-blue-50">
       <div className="container mx-auto px-4">
         {/* Header Skeleton */}
         <div className="text-center mb-10">

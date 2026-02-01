@@ -162,7 +162,7 @@ export default function MediStoreFooter() {
                 { icon: Clock, text: "24/7 Customer Support", link: null },
               ].map((item) => (
                 <li key={item.text} className="flex items-start gap-3">
-                  <item.icon className="h-4 w-4 mt-0.5 flex-shrink-0 text-muted-foreground" />
+                  <item.icon className="h-4 w-4 mt-0.5 shrink-0 text-muted-foreground" />
                   <div>
                     {item.link ? (
                       <a

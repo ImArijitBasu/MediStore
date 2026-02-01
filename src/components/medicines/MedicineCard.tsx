@@ -84,7 +84,7 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ medicine }) => {
           </span>
         </div>
       </div>
-      <div className="h-48 bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center relative">
+      <div className="h-48 bg-linear-to-br from-blue-50 to-indigo-50 flex items-center justify-center relative">
         {medicine.thumbnail ? (
           <div className="relative w-32 h-32">
             <Image

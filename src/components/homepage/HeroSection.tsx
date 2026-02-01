@@ -112,24 +112,6 @@ export function HeroSection({ className }: HeroSectionProps) {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-wrap gap-4 pt-4">
-              <Button asChild size="lg" className="gap-2">
-                <Link href="/shop">
-                  Shop Medicines
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </Button>
-
-              {!user && (
-                <Button asChild size="lg" variant="outline">
-                  <Link href="/auth/register">Become a Seller</Link>
-                </Button>
-              )}
-
-              <Button asChild size="lg" variant="ghost">
-                <Link href="/categories">Browse Categories</Link>
-              </Button>
-            </div>
           </div>
 
           {/* Right Content - Trust Indicators */}
@@ -187,45 +169,23 @@ export function HeroSection({ className }: HeroSectionProps) {
                 </div>
               ))}
             </div>
+            <div className="flex flex-wrap gap-4 pt-4">
+              <Button asChild size="lg" className="gap-2">
+                <Link href="/medicines">
+                  Shop Medicines
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
 
-            {/* Doctor Consultation Banner */}
-            <div className="p-6 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white">
-              <div className="flex items-center justify-between">
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold">
-                    Need Medical Advice?
-                  </h3>
-                  <p className="text-sm opacity-90">
-                    Consult with licensed doctors online
-                  </p>
-                </div>
-                <Button
-                  asChild
-                  size="sm"
-                  variant="secondary"
-                  className="text-blue-600"
-                >
-                  <Link href="/consultation">Book Now</Link>
+              {!user && (
+                <Button asChild size="lg" variant="outline">
+                  <Link href="/auth/register">Become a Seller</Link>
                 </Button>
-              </div>
-            </div>
+              )}
 
-            {/* Prescription Upload */}
-            <div className="p-6 rounded-2xl border bg-card">
-              <div className="flex items-center gap-4">
-                <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/30">
-                  <CheckCircle className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold">Upload Prescription</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Get exact medicines delivered
-                  </p>
-                </div>
-                <Button asChild variant="outline" size="sm">
-                  <Link href="/upload-prescription">Upload</Link>
-                </Button>
-              </div>
+              <Button asChild size="lg" variant="ghost">
+                <Link href="/categories">Browse Categories</Link>
+              </Button>
             </div>
           </div>
         </div>

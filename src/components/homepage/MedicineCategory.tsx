@@ -190,9 +190,6 @@ const MedicineCategory = async () => {
                         </span>
                       </div>
                     </div>
-
-                    {/* Hover Effect Indicator */}
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-transparent group-hover:bg-linear-to-r group-hover:from-blue-500 group-hover:to-indigo-500 rounded-b-xl transition-all duration-300"></div>
                   </div>
                 </Link>
               </div>

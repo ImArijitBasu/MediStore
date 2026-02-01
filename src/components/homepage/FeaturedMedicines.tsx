@@ -64,7 +64,7 @@ const FeaturedMedicines = async () => {
   };
 
   return (
-    <section className="py-12 bg-gradient-to-b from-white to-blue-50 dark:from-gray-900 dark:to-gray-800">
+    <section className="py-12 bg-linear-to-b from-white to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-10">
@@ -99,7 +99,7 @@ const FeaturedMedicines = async () => {
                 className="group bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl dark:shadow-gray-900/30 dark:hover:shadow-gray-900/50 transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-500/30"
               >
                 {/* Medicine Image */}
-                <div className="relative h-48 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900">
+                <div className="relative h-48 bg-linear-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900">
                   {medicine.thumbnail ? (
                     <div className="relative w-full h-full">
                       <Image
@@ -207,28 +207,6 @@ const FeaturedMedicines = async () => {
                     >
                       View Details
                     </Link>
-                    <button
-                      disabled={!isInStock}
-                      className={`px-3 py-2 text-xs font-medium rounded-lg transition-colors flex items-center justify-center ${
-                        isInStock
-                          ? "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
-                          : "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed"
-                      }`}
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                        />
-                      </svg>
-                    </button>
                   </div>
                 </div>
               </div>
@@ -241,7 +219,7 @@ const FeaturedMedicines = async () => {
           <div className="text-center mt-10">
             <Link
               href="/medicines"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700 dark:hover:from-blue-600 dark:hover:to-indigo-600 transition-all duration-300 shadow-md hover:shadow-lg dark:shadow-gray-900/50"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700 dark:hover:from-blue-600 dark:hover:to-indigo-600 transition-all duration-300 shadow-md hover:shadow-lg dark:shadow-gray-900/50"
             >
               <span>View All Medicines</span>
               <svg

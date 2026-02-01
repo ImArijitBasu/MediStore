@@ -47,7 +47,7 @@ const MedicineComponent: React.FC<MedicineComponentProps> = ({ medicines }) => {
   return (
     <div>
       {/* Stats Bar */}
-      <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
+      <div className="mb-6 p-4 bg-linear-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="text-center">
             <div className="text-2xl font-bold text-gray-800">
