@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu } from "lucide-react";
+import { Menu, User } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -112,9 +112,9 @@ const Navbar = ({
 
             {isAuthenticated ? (
               <>
-                <Button asChild variant="outline" size="sm">
+                <Button asChild variant="outline" size="sm" className="bg-blue-300">
                   <Link href={noAuth.dashboard.url}>
-                    {noAuth.dashboard.title}
+                    <User className="size-6 bg-blue-200 rounded-t-full" />
                   </Link>
                 </Button>
                 <LogoutButton />
