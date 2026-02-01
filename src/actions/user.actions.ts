@@ -32,7 +32,6 @@ export const getSession = async () => {
       error: null,
     };
   } catch (err) {
-    console.error("Session error:", err);
     return {
       data: null,
       error: {

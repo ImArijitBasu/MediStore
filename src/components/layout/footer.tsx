@@ -24,7 +24,6 @@ export default function MediStoreFooter() {
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
-      console.log("Subscribed:", email);
       setIsSubscribed(true);
       setEmail("");
       setTimeout(() => setIsSubscribed(false), 3000);

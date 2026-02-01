@@ -1,22 +1,4 @@
 
-// export const MedicineServices = {
-//   getAllMedicine: async () => {
-//     try {
-//       const res = await fetch(
-//         `${process.env.API_URL}/api/medicines`,
-//       );
-//       const data = await res.json();
-//       if (!data) {
-//         return { data: null, error: "category data fetch failed!" };
-//       }
-//       return { data: data, error: null };
-//     } catch (error) {
-//       return { data: null, error: "category data fetch failed!" };
-//     }
-//   },
-// };
-
-// medicine.service.ts
 export const MedicineServices = {
   getAllMedicines: async (filters?: {
     search?: string;
@@ -30,7 +12,6 @@ export const MedicineServices = {
     sortOrder?: "asc" | "desc";
   }) => {
     try {
-      // Build query string from filters
       const queryParams = new URLSearchParams();
 
       if (filters?.search) queryParams.append("search", filters.search);
@@ -62,11 +43,10 @@ export const MedicineServices = {
 
       const apiResponse = await res.json();
 
-      // Return a cleaner structure
       return {
         success: apiResponse.success,
         message: apiResponse.message,
-        data: apiResponse.data?.medicines || [], // This is the key change!
+        data: apiResponse.data?.medicines || [],
         total: apiResponse.data?.total || 0,
         pagination: apiResponse.data?.pagination,
         filters: apiResponse.data?.filters,
@@ -84,9 +64,7 @@ export const MedicineServices = {
       };
     }
   },
-  /**
-   * Get single medicine details by ID
-   */
+
   getMedicineById: async (id: string) => {
     try {
       const res = await fetch(
@@ -95,106 +73,50 @@ export const MedicineServices = {
 
       if (!res.ok) {
         if (res.status === 404) {
-          return { data: null, error: "Medicine not found" };
+          return {
+            success: false,
+            data: null,
+            error: "Medicine not found",
+          };
         }
         throw new Error(`Failed to fetch medicine: ${res.statusText}`);
       }
 
-      const data = await res.json();
+      const response = await res.json();
 
-      if (data.success) {
-        return { data: data.data, error: null };
+      let medicineData = response.data;
+      if (typeof medicineData === "string") {
+        try {
+          medicineData = JSON.parse(medicineData);
+        } catch (parseError) {
+          medicineData = null;
+        }
+      }
+
+      if (response.success) {
+        return {
+          success: true,
+          data: medicineData,
+          error: null,
+        };
       } else {
         return {
+          success: false,
           data: null,
-          error: data.message || "Failed to fetch medicine",
+          error: response.message || "Failed to fetch medicine",
         };
       }
     } catch (error: any) {
       return {
+        success: false,
         data: null,
         error: error.message || "Failed to fetch medicine details",
       };
     }
   },
-
-  /**
-   * Search medicines by name, brand, generic name, or description
-   */
-  searchMedicines: async (query: string, limit: number = 10) => {
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/medicines?search=${encodeURIComponent(query)}&limit=${limit}`,
-      );
-
-      if (!res.ok) {
-        throw new Error(`Failed to search medicines: ${res.statusText}`);
-      }
-
-      const data = await res.json();
-
-      if (data.success) {
-        return { data: data.data?.medicines || [], error: null };
-      } else {
-        return {
-          data: [],
-          error: data.message || "Failed to search medicines",
-        };
-      }
-    } catch (error: any) {
-      return {
-        data: [],
-        error: error.message || "Failed to search medicines",
-      };
-    }
-  },
-
-  /**
-   * Get medicines by category
-   */
-  getMedicinesByCategory: async (categoryId: string, limit: number = 20) => {
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/medicines?category=${categoryId}&limit=${limit}`,
-      );
-
-      if (!res.ok) {
-        throw new Error(
-          `Failed to fetch category medicines: ${res.statusText}`,
-        );
-      }
-
-      const data = await res.json();
-
-      if (data.success) {
-        return {
-          data: data.data?.medicines || [],
-          total: data.data?.total || 0,
-          error: null,
-        };
-      } else {
-        return {
-          data: [],
-          total: 0,
-          error: data.message || "Failed to fetch category medicines",
-        };
-      }
-    } catch (error: any) {
-      return {
-        data: [],
-        total: 0,
-        error: error.message || "Failed to fetch category medicines",
-      };
-    }
-  },
-
-  /**
-   * Get featured medicines (by rating, in stock)
-   * Note: Your backend doesn't have inStock filter directly, but we can filter by minPrice > 0
-   */
   getFeaturedMedicines: async (limit: number = 8) => {
     try {
-      // Using rating sort and minPrice > 0 to ensure medicines with sellers
+    
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/medicines?minPrice=0&sortBy=rating&sortOrder=desc&limit=${limit}`,
       );
@@ -208,7 +130,7 @@ export const MedicineServices = {
       const data = await res.json();
 
       if (data.success) {
-        return { data: data.data?.medicines || [], error: null };
+        return { data: data || [], error: null };
       } else {
         return {
           data: [],
@@ -219,49 +141,6 @@ export const MedicineServices = {
       return {
         data: [],
         error: error.message || "Failed to fetch featured medicines",
-      };
-    }
-  },
-
-  /**
-   * Get medicines within a price range
-   */
-  getMedicinesByPriceRange: async (
-    minPrice: number,
-    maxPrice: number,
-    limit: number = 20,
-  ) => {
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/medicines?minPrice=${minPrice}&maxPrice=${maxPrice}&limit=${limit}`,
-      );
-
-      if (!res.ok) {
-        throw new Error(
-          `Failed to fetch medicines by price range: ${res.statusText}`,
-        );
-      }
-
-      const data = await res.json();
-
-      if (data.success) {
-        return {
-          data: data.data?.medicines || [],
-          total: data.data?.total || 0,
-          error: null,
-        };
-      } else {
-        return {
-          data: [],
-          total: 0,
-          error: data.message || "Failed to fetch medicines by price range",
-        };
-      }
-    } catch (error: any) {
-      return {
-        data: [],
-        total: 0,
-        error: error.message || "Failed to fetch medicines by price range",
       };
     }
   },

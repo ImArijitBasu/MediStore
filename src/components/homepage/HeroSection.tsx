@@ -33,7 +33,7 @@ export function HeroSection({ className }: HeroSectionProps) {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/shop?search=${encodeURIComponent(searchQuery)}`;
+      window.location.href = `/medicines?search=${encodeURIComponent(searchQuery)}`;
     }
   };
 

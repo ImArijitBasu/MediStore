@@ -29,7 +29,6 @@ export function useSession() {
       });
 
       const data = await response.json();
-      console.log("Session data from Express:", data);
 
       if (!response.ok) {
         throw new Error(data.message || "Failed to fetch session");
@@ -37,7 +36,6 @@ export function useSession() {
 
       setSession(data);
     } catch (err: any) {
-      console.error("Session fetch error:", err);
       setError(err.message || "Network error");
       setSession(null);
     } finally {

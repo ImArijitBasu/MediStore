@@ -77,7 +77,6 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
           router.refresh();
         }, 1500);
       } catch (err) {
-        console.error("Registration error:", err);
         toast.error("Something went wrong!", { id: toastId });
       }
     },
