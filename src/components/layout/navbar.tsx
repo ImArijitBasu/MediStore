@@ -60,7 +60,9 @@ const Navbar = ({
   },
   menu = [
     { title: "Home", url: "/" },
+    { title: "medicines", url: "/medicines" },
     { title: "Shop", url: "/shop" },
+    { title: "Categories", url: "/categories" },
     { title: "About", url: "/about" },
   ],
   auth = {
