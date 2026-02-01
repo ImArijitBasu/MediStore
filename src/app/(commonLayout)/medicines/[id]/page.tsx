@@ -14,8 +14,7 @@ interface MedicineDetailsPageProps {
 export default async function MedicineDetailsPage({
   params,
 }: MedicineDetailsPageProps) {
-
-    const { id } = await params;
+  const { id } = await params;
   const medicineResult = await MedicineServices.getMedicineById(id);
 
   // Check if successful and has data
@@ -39,7 +38,6 @@ export default async function MedicineDetailsPage({
   const rating = medicineData.rating || 0;
   const reviewCount = medicineData._count?.reviews || 0;
 
-  // Generate rating stars
   const renderStars = () => {
     const stars = [];
     const fullStars = Math.floor(rating);
@@ -93,7 +91,6 @@ export default async function MedicineDetailsPage({
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
-        {/* Breadcrumb Navigation */}
         <nav className="mb-6">
           <ol className="flex flex-wrap items-center space-x-2 text-sm">
             <li>
@@ -120,12 +117,9 @@ export default async function MedicineDetailsPage({
           </ol>
         </nav>
 
-        {/* Main Content */}
         <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
           <div className="md:flex">
-            {/* Left Column - Image & Basic Info */}
             <div className="md:w-2/5 p-6 md:p-8 border-b md:border-b-0 md:border-r border-gray-100">
-              {/* Medicine Image */}
               <div className="mb-6">
                 <div className="h-64 md:h-80 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg flex items-center justify-center relative">
                   {medicineData.thumbnail ? (
@@ -152,7 +146,6 @@ export default async function MedicineDetailsPage({
                     </div>
                   )}
 
-                  {/* Stock Status Badge */}
                   <div className="absolute top-4 right-4">
                     <span
                       className={`px-3 py-1.5 rounded-full text-xs font-semibold ${isInStock ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
@@ -163,7 +156,6 @@ export default async function MedicineDetailsPage({
                 </div>
               </div>
 
-              {/* Category & Type Badges */}
               <div className="space-y-3">
                 <div>
                   <span className="text-sm text-gray-500">Category</span>
@@ -186,8 +178,6 @@ export default async function MedicineDetailsPage({
                     </span>
                   </div>
                 </div>
-
-                {/* Status */}
                 <div className="flex items-center justify-between pt-3 border-t border-gray-100">
                   <span className="text-sm text-gray-500">Status:</span>
                   <span
@@ -199,8 +189,6 @@ export default async function MedicineDetailsPage({
                     {medicineData.isActive ? "Active" : "Inactive"}
                   </span>
                 </div>
-
-                {/* Added Date */}
                 <div className="flex items-center justify-between text-sm text-gray-500 pt-3 border-t border-gray-100">
                   <span className="flex items-center gap-1.5">
                     <svg
@@ -232,7 +220,6 @@ export default async function MedicineDetailsPage({
               </div>
             </div>
 
-            {/* Right Column - Details */}
             <div className="md:w-3/5 p-6 md:p-8">
               {/* Medicine Header */}
               <div className="mb-6">
@@ -404,8 +391,8 @@ export default async function MedicineDetailsPage({
               </div>
             </div>
           </div>
-              </div>
-              <MedicineReviews medicineId={id}/>
+        </div>
+        <MedicineReviews medicineId={id} />
 
         {/* Back to Medicines Link */}
         <div className="mt-8 text-center">
@@ -433,5 +420,3 @@ export default async function MedicineDetailsPage({
     </div>
   );
 }
-
-

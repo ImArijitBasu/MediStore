@@ -2,6 +2,7 @@ import FeaturedMedicines from "@/components/homepage/FeaturedMedicines";
 import { FeaturedMedicinesSkeleton } from "@/components/homepage/FeaturedMedicineSkeleton";
 import { HeroSection } from "@/components/homepage/HeroSection";
 import MedicineCategory from "@/components/homepage/MedicineCategory";
+import TrustJourneySection from "@/components/homepage/TrustJourney";
 import LoadingSpinner from "@/components/layout/loadingSpinner";
 import { Button } from "@/components/ui/button";
 import { userService } from "@/services/user.service";
@@ -21,6 +22,10 @@ export default async function Home() {
       <Suspense fallback={<LoadingSpinner/>}>
         <MedicineCategory/>
       </Suspense>
+      <Suspense fallback={<LoadingSpinner/>}>
+        <TrustJourneySection/>
+      </Suspense>
+      
     </div>
   );
 }

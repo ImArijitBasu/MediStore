@@ -2,7 +2,7 @@
 
 const TrustJourneySection = () => {
   return (
-    <section className="py-16 bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <section className="py-16 bg-linear-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-12">
@@ -54,11 +54,11 @@ const TrustJourneySection = () => {
             {/* Steps Timeline */}
             <div className="space-y-6 relative">
               {/* Connecting Line */}
-              <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-200 via-blue-400 to-blue-200 dark:from-blue-700 dark:via-blue-500 dark:to-blue-700"></div>
+              <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-linear-to-b from-blue-200 via-blue-400 to-blue-200 dark:from-blue-700 dark:via-blue-500 dark:to-blue-700"></div>
 
               {/* Step 1 */}
               <div className="flex items-start gap-4 relative group">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white flex items-center justify-center font-bold text-lg shadow-lg group-hover:scale-110 transition-transform duration-300 z-10">
+                <div className="shrink-0 w-12 h-12 rounded-full bg-linear-to-r from-blue-500 to-blue-600 text-white flex items-center justify-center font-bold text-lg shadow-lg group-hover:scale-110 transition-transform duration-300 z-10">
                   1
                 </div>
                 <div className="flex-1 pt-2">
@@ -90,7 +90,7 @@ const TrustJourneySection = () => {
 
               {/* Step 2 */}
               <div className="flex items-start gap-4 relative group">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-r from-indigo-500 to-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow-lg group-hover:scale-110 transition-transform duration-300 z-10">
+                <div className="shrink-0 w-12 h-12 rounded-full bg-linear-to-r from-indigo-500 to-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow-lg group-hover:scale-110 transition-transform duration-300 z-10">
                   2
                 </div>
                 <div className="flex-1 pt-2">
@@ -122,7 +122,7 @@ const TrustJourneySection = () => {
 
               {/* Step 3 */}
               <div className="flex items-start gap-4 relative group">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 text-white flex items-center justify-center font-bold text-lg shadow-lg group-hover:scale-110 transition-transform duration-300 z-10">
+                <div className="shrink-0 w-12 h-12 rounded-full bg-linear-to-r from-purple-500 to-purple-600 text-white flex items-center justify-center font-bold text-lg shadow-lg group-hover:scale-110 transition-transform duration-300 z-10">
                   3
                 </div>
                 <div className="flex-1 pt-2">
@@ -154,7 +154,7 @@ const TrustJourneySection = () => {
 
               {/* Step 4 */}
               <div className="flex items-start gap-4 relative group">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-r from-green-500 to-green-600 text-white flex items-center justify-center font-bold text-lg shadow-lg group-hover:scale-110 transition-transform duration-300 z-10">
+                <div className="shrink-0 w-12 h-12 rounded-full bg-linear-to-r from-green-500 to-green-600 text-white flex items-center justify-center font-bold text-lg shadow-lg group-hover:scale-110 transition-transform duration-300 z-10">
                   4
                 </div>
                 <div className="flex-1 pt-2">
@@ -219,7 +219,7 @@ const TrustJourneySection = () => {
               {/* Feature 1: Verified Medicines */}
               <div className="group p-4 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-500/30 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-all duration-300">
                 <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <div className="shrink-0 w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <svg
                       className="w-5 h-5 text-blue-600 dark:text-blue-400"
                       fill="none"
@@ -249,7 +249,7 @@ const TrustJourneySection = () => {
               {/* Feature 2: Secure Payment */}
               <div className="group p-4 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-green-200 dark:hover:border-green-500/30 hover:bg-green-50/50 dark:hover:bg-green-900/10 transition-all duration-300">
                 <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <div className="shrink-0 w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <svg
                       className="w-5 h-5 text-green-600 dark:text-green-400"
                       fill="none"
@@ -279,7 +279,7 @@ const TrustJourneySection = () => {
               {/* Feature 3: Fast Delivery */}
               <div className="group p-4 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-amber-200 dark:hover:border-amber-500/30 hover:bg-amber-50/50 dark:hover:bg-amber-900/10 transition-all duration-300">
                 <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <div className="shrink-0 w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <svg
                       className="w-5 h-5 text-amber-600 dark:text-amber-400"
                       fill="none"
@@ -309,7 +309,7 @@ const TrustJourneySection = () => {
               {/* Feature 4: Expert Support */}
               <div className="group p-4 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-purple-200 dark:hover:border-purple-500/30 hover:bg-purple-50/50 dark:hover:bg-purple-900/10 transition-all duration-300">
                 <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <div className="shrink-0 w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <svg
                       className="w-5 h-5 text-purple-600 dark:text-purple-400"
                       fill="none"
@@ -339,7 +339,7 @@ const TrustJourneySection = () => {
               {/* Feature 5: Free Shipping */}
               <div className="group p-4 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-rose-200 dark:hover:border-rose-500/30 hover:bg-rose-50/50 dark:hover:bg-rose-900/10 transition-all duration-300 md:col-span-2">
                 <div className="flex items-center gap-3">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <div className="shrink-0 w-10 h-10 rounded-lg bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <svg
                       className="w-5 h-5 text-rose-600 dark:text-rose-400"
                       fill="none"
@@ -409,7 +409,7 @@ const TrustJourneySection = () => {
 
         {/* Call to Action */}
         <div className="mt-12 text-center">
-          <div className="inline-flex flex-col sm:flex-row gap-4 items-center bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-6 md:p-8 shadow-md">
+          <div className="inline-flex flex-col sm:flex-row gap-4 items-center bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-6 md:p-8 shadow-md">
             <div className="text-left">
               <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
                 Ready to Experience Hassle-Free Medicine Delivery?
@@ -419,7 +419,7 @@ const TrustJourneySection = () => {
                 healthcare needs.
               </p>
             </div>
-            <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700 dark:hover:from-blue-600 dark:hover:to-indigo-600 transition-all duration-300 whitespace-nowrap shadow-lg hover:shadow-xl">
+            <button className="px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700 dark:hover:from-blue-600 dark:hover:to-indigo-600 transition-all duration-300 whitespace-nowrap shadow-lg hover:shadow-xl">
               Start Shopping Now
             </button>
           </div>
