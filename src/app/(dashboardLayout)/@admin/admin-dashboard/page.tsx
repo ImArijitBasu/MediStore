@@ -1,11 +1,8 @@
+import { redirect } from 'next/navigation';
 import React from 'react';
 
 const page = () => {
-    return (
-        <div>
-            admin dashboard
-        </div>
-    );
+    redirect("/admin-dashboard/profile")
 };
 
 export default page;

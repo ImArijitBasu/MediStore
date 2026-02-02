@@ -56,7 +56,7 @@ export default function CustomerOrdersDashboard({
 
       {/* Quick Stats Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="border-none shadow-sm bg-gradient-to-br from-blue-50 to-white border-l-4 border-l-blue-500">
+        <Card className="border-none shadow-sm bg-linear-to-br from-blue-50 to-white border-l-4 border-l-blue-500">
           <CardContent className="p-5 flex items-center gap-4">
             <div className="p-3 bg-blue-100 rounded-xl text-blue-600">
               <Truck className="h-6 w-6" />
@@ -72,7 +72,7 @@ export default function CustomerOrdersDashboard({
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-sm bg-gradient-to-br from-emerald-50 to-white border-l-4 border-l-emerald-500">
+        <Card className="border-none shadow-sm bg-linear-to-br from-emerald-50 to-white border-l-4 border-l-emerald-500">
           <CardContent className="p-5 flex items-center gap-4">
             <div className="p-3 bg-emerald-100 rounded-xl text-emerald-600">
               <CheckCircle2 className="h-6 w-6" />
@@ -88,7 +88,7 @@ export default function CustomerOrdersDashboard({
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-sm bg-gradient-to-br from-slate-50 to-white border-l-4 border-l-slate-400">
+        <Card className="border-none shadow-sm bg-linear-to-br from-slate-50 to-white border-l-4 border-l-slate-400">
           <CardContent className="p-5 flex items-center gap-4">
             <div className="p-3 bg-slate-200 rounded-xl text-slate-600">
               <History className="h-6 w-6" />

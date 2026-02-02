@@ -76,7 +76,7 @@ export default function SellerOrdersDashboard({
       </div>
 
       <Tabs defaultValue="active" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 max-w-[400px] mb-4">
+        <TabsList className="grid w-full grid-cols-3 max-w-96 mb-4">
           <TabsTrigger value="active">
             Active ({activeOrders.length})
           </TabsTrigger>
@@ -167,7 +167,7 @@ function OrderTable({ orders, isPending, onUpdate, type }: any) {
 
                 {/* Shipping Address */}
                 <TableCell>
-                  <div className="flex items-start gap-1 max-w-[180px]">
+                  <div className="flex items-start gap-1 max-w-45">
                     <MapPin className="h-3 w-3 text-slate-400 mt-1 shrink-0" />
                     <span className="text-xs text-slate-600 leading-relaxed">
                       {order.shippingAddress || "No address provided"}
@@ -177,7 +177,7 @@ function OrderTable({ orders, isPending, onUpdate, type }: any) {
 
                 {/* Items */}
                 <TableCell>
-                  <div className="max-w-[150px] space-y-1">
+                  <div className="max-w-37.5 space-y-1">
                     {order.items?.map((item: any) => (
                       <span
                         key={item.id}

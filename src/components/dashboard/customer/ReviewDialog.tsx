@@ -63,7 +63,7 @@ export function ReviewDialog({ order }: { order: any }) {
           <Star className="h-4 w-4 mr-1 fill-emerald-600" /> Review
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-106.25">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <PackageCheck className="h-5 w-5 text-emerald-600" />
@@ -119,7 +119,7 @@ export function ReviewDialog({ order }: { order: any }) {
               placeholder="Share your experience with this medicine..."
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              className="min-h-[100px] border-slate-200 focus:border-emerald-500"
+              className="min-h-25 border-slate-200 focus:border-emerald-500"
             />
           </div>
 

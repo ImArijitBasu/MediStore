@@ -20,7 +20,7 @@ export function OrderTable({ orders, statusStyles, showReviewAction }: any) {
       <Table>
         <TableHeader className="bg-slate-50">
           <TableRow>
-            <TableHead className="w-[120px]">Order ID</TableHead>
+            <TableHead className="w-30">Order ID</TableHead>
             <TableHead>Date</TableHead>
             <TableHead>Items</TableHead>
             <TableHead>Total</TableHead>
@@ -52,7 +52,7 @@ export function OrderTable({ orders, statusStyles, showReviewAction }: any) {
                 </TableCell>
                 <TableCell>
                   <div
-                    className="max-w-[200px] truncate text-xs text-slate-500"
+                    className="max-w-50 truncate text-xs text-slate-500"
                     title={order.items
                       ?.map((item: any) => item.sellerMedicine?.medicine?.name)
                       .join(", ")}
