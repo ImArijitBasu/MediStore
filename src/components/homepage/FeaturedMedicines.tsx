@@ -6,10 +6,15 @@ import Image from "next/image";
 const FeaturedMedicines = async () => {
   const featuredResult = await MedicineServices.getFeaturedMedicines(5);
 
-  const featuredMedicines = featuredResult.data.data.medicines;
+  const featuredMedicines = featuredResult?.data?.data?.medicines;
 
   if (featuredMedicines.length === 0) {
-    return null;
+    return (
+      <div className="text-red-500 font-extrabold text-xl p-10 mx-auto">
+        Network connection error
+        <span className="text-xs px-5">Please try again later</span>
+      </div>
+    );
   }
 
   // Function to render stars
