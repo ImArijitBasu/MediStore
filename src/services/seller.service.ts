@@ -126,7 +126,7 @@ export const SellerServices = {
   getSellerOrders: async () => {
     const cookieStore = cookies();
     try {
-      const res = await fetch(`${API_URL}/api/medicines/seller/orders`, {
+      const res = await fetch(`${API_URL}/api/orders/seller/orders`, {
         headers: {
           Cookie: (await cookieStore).toString(),
         },
@@ -155,7 +155,7 @@ export const SellerServices = {
     const cookieStore = cookies();
     try {
       const res = await fetch(
-        `${API_URL}/api/medicines/seller/orders/${orderId}/status`,
+        `${API_URL}/api/orders/seller/orders/${orderId}/status`,
         {
           method: "PATCH",
           headers: {

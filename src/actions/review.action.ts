@@ -1,50 +1,30 @@
 // actions/review.actions.ts
 "use server";
 
-import { cookies } from "next/headers";
 
-export const reviewActions = {
-  /**
-   * Create a review (with authentication)
-   */
-  createReviewAction: async (reviewData: {
-    medicineId: string;
-    rating: number;
-    comment?: string;
-    orderId?: string;
-  }) => {
-    try {
-      const cookieStore = await cookies();
-      const cookieString = cookieStore.toString();
+import { CustomerServices } from "@/services/customer.service";
+import { revalidatePath } from "next/cache";
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/reviews`,
-        {
-          method: "POST",
-          headers: {
-            Cookie: cookieString,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(reviewData),
-          credentials: "include",
-        },
-      );
+export async function createReviewAction(payload: {
+  medicineId: string;
+  orderId: string;
+  rating: number;
+  comment: string;
+}) {
+  try {
+    // Call your existing service
+    const result = await CustomerServices.createReview(payload);
 
-      const data = await res.json();
-
-      return {
-        success: data.success,
-        message: data.message,
-        data: data.data,
-        error: data.success ? null : data.message,
-      };
-    } catch (error: any) {
-      return {
-        success: false,
-        message: error.message || "Failed to create review",
-        data: null,
-        error: error.message || "Failed to create review",
-      };
+    if (result.success) {
+      // Refresh the orders page so the UI stays in sync
+      revalidatePath("/dashboard/orders");
     }
-  },
-};
+
+    return result;
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message || "Something went wrong",
+    };
+  }
+}

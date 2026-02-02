@@ -16,7 +16,6 @@ export default async function MedicineReviews({
     sortBy: "createdAt",
     sortOrder: "desc",
   });
-
   if (!reviewsResult.success) {
     return (
       <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
@@ -67,7 +66,6 @@ export default async function MedicineReviews({
         <h2 className="text-2xl font-bold text-gray-800">Customer Reviews</h2>
       </div>
 
-      {/* Average Rating & Distribution */}
       <div className="flex flex-col md:flex-row items-start gap-6 mb-8 p-4 bg-blue-50 rounded-lg">
         <div className="text-center">
           <div className="text-4xl font-bold text-gray-800">
@@ -100,7 +98,6 @@ export default async function MedicineReviews({
         </div>
       </div>
 
-      {/* Reviews List */}
       <div className="space-y-6">
         {reviews.length > 0 ? (
           reviews.map((review: any) => (
@@ -144,15 +141,6 @@ export default async function MedicineReviews({
           </div>
         )}
       </div>
-
-      {/* Load More Button (if pagination available) */}
-      {reviewsResult.pagination && reviewsResult.pagination.totalPages > 1 && (
-        <div className="mt-6 text-center">
-          <button className="px-4 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors duration-200">
-            Load More Reviews
-          </button>
-        </div>
-      )}
     </div>
   );
 }

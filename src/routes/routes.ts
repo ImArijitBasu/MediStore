@@ -28,7 +28,6 @@ export const sellerRoutes: Route[] = [
       { title: "Inventory", url: "/seller-dashboard/inventory" },
       { title: "Add medicine", url: "/seller-dashboard/add-medicine" },
       { title: "Orders", url: "/seller-dashboard/orders" },
-      { title: "Orders Status", url: "/seller-dashboard/orders-status" },
     ],
   },
 ];
@@ -39,9 +38,8 @@ export const customerRoutes: Route[] = [
     items: [
       { title: "Profile", url: "/dashboard/profile" },
       { title: "Cart", url: "/dashboard/cart" },
-      { title: "All Orders", url: "/dashboard/orders" },
-      { title: "Track Order", url: "/dashboard/track-order" },
-      { title: "Reviews", url: "/dashboard/reviews" },
+      { title: "Orders", url: "/dashboard/orders" },
     ],
   },
 ];
+

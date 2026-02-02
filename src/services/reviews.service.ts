@@ -1,56 +1,43 @@
 export const ReviewServices = {
-  getMedicineReviews: async (
-    medicineId: string,
-    options?: {
-      page?: number;
-      limit?: number;
-      sortBy?: "rating" | "createdAt";
-      sortOrder?: "asc" | "desc";
-    },
-  ) => {
+  getMedicineReviews: async (medicineId: string, options?: any) => {
+    if (!medicineId) {
+      console.error("DEBUG: getMedicineReviews called with NO medicineId");
+      return { success: false, data: [], total: 0 };
+    }
+
     try {
       const queryParams = new URLSearchParams();
-
       if (options?.page) queryParams.append("page", options.page.toString());
       if (options?.limit) queryParams.append("limit", options.limit.toString());
       if (options?.sortBy) queryParams.append("sortBy", options.sortBy);
       if (options?.sortOrder)
         queryParams.append("sortOrder", options.sortOrder);
 
-      const queryString = queryParams.toString();
-      const url = queryString
-        ? `${process.env.NEXT_PUBLIC_API_URL}/api/reviews/medicine/${medicineId}?${queryString}`
-        : `${process.env.NEXT_PUBLIC_API_URL}/api/reviews/medicine/${medicineId}`;
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+      const url = `${baseUrl}/api/reviews/medicine/${medicineId}?${queryParams.toString()}`;
 
-      const res = await fetch(url);
+      const res = await fetch(url, {
+        cache: "no-store",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-      if (!res.ok) {
-        throw new Error(`Failed to fetch reviews: ${res.statusText}`);
-      }
+      if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
 
       const data = await res.json();
+      const actualReviews = data.data?.reviews || data.data || [];
 
       return {
         success: data.success,
-        message: data.message,
-        data: data.data?.reviews || [],
-        total: data.data?.total || 0,
-        pagination: data.data?.pagination,
+        data: Array.isArray(actualReviews) ? actualReviews : [],
+        total: data.data?.total || actualReviews.length || 0,
         averageRating: data.data?.averageRating || 0,
         ratingDistribution: data.data?.ratingDistribution || {},
-        error: null,
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: error.message || "Failed to fetch reviews",
-        data: [],
-        total: 0,
-        pagination: null,
-        averageRating: 0,
-        ratingDistribution: {},
-        error: error.message || "Failed to fetch reviews",
-      };
+      console.error("REVIEWS_FETCH_ERROR:", error.message);
+      return { success: false, data: [], error: error.message };
     }
   },
 };

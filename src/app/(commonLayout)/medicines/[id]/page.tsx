@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import MedicineReviews from "@/components/medicines/MedicineReviews";
+import AddToCartButton from "@/components/medicines/AddToCartButton";
 
 interface MedicineDetailsPageProps {
   params: {
@@ -121,7 +122,7 @@ export default async function MedicineDetailsPage({
           <div className="md:flex">
             <div className="md:w-2/5 p-6 md:p-8 border-b md:border-b-0 md:border-r border-gray-100">
               <div className="mb-6">
-                <div className="h-64 md:h-80 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg flex items-center justify-center relative">
+                <div className="h-64 md:h-80 bg-linear-to-br from-blue-50 to-indigo-50 rounded-lg flex items-center justify-center relative">
                   {medicineData.thumbnail ? (
                     <div className="relative w-48 h-48 md:w-56 md:h-56">
                       <Image
@@ -282,30 +283,9 @@ export default async function MedicineDetailsPage({
                       Per unit • Free shipping
                     </div>
                   </div>
-
-                  {/* Add to Cart Button */}
-                  <div className="flex-shrink-0">
-                    <button className="w-full md:w-auto px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center gap-2">
-                      <svg
-                        className="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                        />
-                      </svg>
-                      Add to Cart
-                    </button>
-                  </div>
                 </div>
               </div>
 
-              {/* Sellers Information */}
               <div className="mb-6">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4">
                   Available from {medicineData.sellers?.length || 0} seller
@@ -368,12 +348,13 @@ export default async function MedicineDetailsPage({
                               )}
                             </div>
                             {sellerInfo.stockQuantity > 0 ? (
-                              <button className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200">
-                                Buy from this seller
-                              </button>
+                              <AddToCartButton
+                                sellerMedicineId={sellerInfo.id}
+                                stock={sellerInfo.stockQuantity}
+                              />
                             ) : (
-                              <span className="px-4 py-2 bg-gray-100 text-gray-500 text-sm font-medium rounded-lg">
-                                Out of stock
+                              <span className="text-gray-500 font-medium">
+                                Out of Stock
                               </span>
                             )}
                           </div>
@@ -394,7 +375,6 @@ export default async function MedicineDetailsPage({
         </div>
         <MedicineReviews medicineId={id} />
 
-        {/* Back to Medicines Link */}
         <div className="mt-8 text-center">
           <Link
             href="/medicines"

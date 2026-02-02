@@ -1,11 +1,7 @@
+import { redirect } from 'next/navigation';
 import React from 'react';
 
 const CustomerDashboard = () => {
-    return (
-        <div>
-            customer Dashboard
-        </div>
-    );
-};
-
+    redirect("/dashboard/profile");
+}
 export default CustomerDashboard;
