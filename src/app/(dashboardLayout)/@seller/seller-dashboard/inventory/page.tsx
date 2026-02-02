@@ -1,4 +1,4 @@
-import React from "react";
+
 import { SellerServices } from "@/services/seller.service";
 import {
   Table,
@@ -17,7 +17,6 @@ import { DeleteMedicineDialog } from "@/components/dashboard/seller/DeleteMedici
 const InventoryPage = async () => {
   const response = await SellerServices.getSellerMedicines();
 
-  // Based on your log: data is an Array directly.
   const inventoryData = response?.data || [];
 
   const totalStock = inventoryData.reduce(
@@ -129,7 +128,6 @@ const InventoryPage = async () => {
                         currentStock={item.stockQuantity}
                         medicineName={item.medicine?.name}
                       />
-                      {/* Use medicineId here to match your backend logic */}
                       <DeleteMedicineDialog
                         id={item.medicineId}
                         name={item.medicine?.name}
