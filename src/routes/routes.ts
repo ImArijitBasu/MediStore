@@ -29,7 +29,6 @@ export const sellerRoutes: Route[] = [
       { title: "Add medicine", url: "/seller-dashboard/add-medicine" },
       { title: "Orders", url: "/seller-dashboard/orders" },
       { title: "Orders Status", url: "/seller-dashboard/orders-status" },
-      { title: "Statistics", url: "/seller-dashboard/statistics" },
     ],
   },
 ];

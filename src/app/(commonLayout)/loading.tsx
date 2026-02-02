@@ -2,7 +2,7 @@
 "use client";
 export default function Loading() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex flex-col items-center justify-center p-4">
       <div className="max-w-md w-full text-center">
         {/* Logo/App Name */}
         <div className="mb-8">
@@ -49,7 +49,7 @@ export default function Loading() {
         <div className="mb-8">
           <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full animate-slide"
+              className="h-full bg-linear-to-r from-blue-500 to-indigo-600 rounded-full animate-slide"
               style={{
                 width: "70%",
                 animation: "slide 2s ease-in-out infinite",
