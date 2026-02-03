@@ -128,10 +128,10 @@ const MedicineCategory = async () => {
                     >
                       {hasImage ? (
                         <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-white/50 shadow-lg">
-                          <img
+                          <Image
                             src={category.image!}
                             alt={category.name}
-                            // fill
+                            fill
                             className="object-cover"
                             sizes="(max-width: 768px) 100px, 150px"
                           />

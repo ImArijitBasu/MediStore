@@ -1,4 +1,4 @@
-// app/admin/orders/page.tsx
+export const dynamic = "force-dynamic";
 import { AdminServices } from "@/services/admin.service";
 import { OrderTable } from "@/components/dashboard/admin/OrderTable";
 import { ShoppingBag } from "lucide-react";
@@ -6,7 +6,7 @@ import { ShoppingBag } from "lucide-react";
 export default async function AdminOrdersPage() {
   const response = await AdminServices.getAllOrders(); // Assuming this exists in your service
   const orders = response?.data || [];
-console.log(orders);
+  console.log(orders);
   return (
     <div className="p-8 space-y-6">
       <div className="flex items-center justify-between">

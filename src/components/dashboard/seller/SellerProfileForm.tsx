@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
 
 export default function ProfileForm({ initialData }: { initialData: any }) {
   const router = useRouter();
@@ -47,7 +48,7 @@ export default function ProfileForm({ initialData }: { initialData: any }) {
         <div className="flex items-center gap-4">
           <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center border-2 border-primary/20">
             {initialData?.image ? (
-              <img
+              <Image
                 src={initialData.image}
                 alt="Profile"
                 className="h-full w-full rounded-full object-cover"

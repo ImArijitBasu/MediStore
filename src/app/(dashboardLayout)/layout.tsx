@@ -1,12 +1,10 @@
-
+export const dynamic = "force-dynamic";
 import { AppSidebar } from "@/components/dashboard/app-sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -14,20 +12,18 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import {Roles} from "../../constants/roles"
+import { Roles } from "../../constants/roles";
 import { userService } from "@/services/user.service";
-
 
 export default async function DashboardLayout({
   admin,
   seller,
- customer
+  customer,
 }: {
   admin: React.ReactNode;
   seller: React.ReactNode;
   customer: React.ReactNode;
 }) {
-
   const { data } = await userService.getSession();
   const userInfo = data?.user;
   return (
@@ -43,14 +39,18 @@ export default async function DashboardLayout({
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/">
-                  Home
-                </BreadcrumbLink>
+                <BreadcrumbLink href="/">Home</BreadcrumbLink>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </header>
-        {userInfo.role === Roles.admin ? admin : userInfo.role === Roles.seller ? seller : userInfo.role === Roles.customer ? customer : null}
+        {userInfo.role === Roles.admin
+          ? admin
+          : userInfo.role === Roles.seller
+            ? seller
+            : userInfo.role === Roles.customer
+              ? customer
+              : null}
       </SidebarInset>
     </SidebarProvider>
   );

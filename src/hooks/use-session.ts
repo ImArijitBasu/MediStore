@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react";
 
-const AUTH_URL = process.env.AUTH_URL || "http://localhost:5000/api/auth";
+const AUTH_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 export function useSession() {
   const [session, setSession] = useState<any>(null);
@@ -19,7 +19,7 @@ export function useSession() {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${AUTH_URL}/get-session`, {
+      const response = await fetch(`${AUTH_URL}/api/auth/get-session`, {
         method: "GET",
         credentials: "include",
         headers: {

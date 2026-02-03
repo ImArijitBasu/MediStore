@@ -1,4 +1,3 @@
-// app/admin/users/page.tsx
 import { AdminServices } from "@/services/admin.service";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
