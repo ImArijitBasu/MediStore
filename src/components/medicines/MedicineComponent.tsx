@@ -24,8 +24,8 @@ const MedicineComponent: React.FC<MedicineComponentProps> = ({ medicines }) => {
   if (!medicines || medicines.length === 0) {
     return (
       <div className="text-center py-12">
-        <div className="text-gray-500 text-lg mb-4">No medicines found</div>
-        <p className="text-gray-400">Check back later for new additions.</p>
+        <div className="text-muted-foreground text-lg mb-4">No medicines found</div>
+        <p className="text-muted-foreground/70">Check back later for new additions.</p>
       </div>
     );
   }
@@ -47,55 +47,55 @@ const MedicineComponent: React.FC<MedicineComponentProps> = ({ medicines }) => {
   return (
     <div>
       {/* Stats Bar */}
-      <div className="mb-6 p-4 bg-linear-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
+      <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg border border-blue-100 dark:border-blue-800/30">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="text-center">
-            <div className="text-2xl font-bold text-gray-800">
+            <div className="text-2xl font-bold text-foreground">
               {medicines.length}
             </div>
-            <div className="text-sm text-gray-600">Total Medicines</div>
+            <div className="text-sm text-muted-foreground">Total Medicines</div>
           </div>
 
           <div className="text-center">
-            <div className="text-2xl font-bold text-gray-800">{totalStock}</div>
-            <div className="text-sm text-gray-600">Total Stock</div>
+            <div className="text-2xl font-bold text-foreground">{totalStock}</div>
+            <div className="text-sm text-muted-foreground">Total Stock</div>
           </div>
 
           <div className="text-center">
-            <div className="text-2xl font-bold text-gray-800">
+            <div className="text-2xl font-bold text-foreground">
               {averageRating.toFixed(1)}
             </div>
-            <div className="text-sm text-gray-600">Avg Rating</div>
+            <div className="text-sm text-muted-foreground">Avg Rating</div>
           </div>
 
           <div className="text-center">
-            <div className="text-2xl font-bold text-gray-800">{otcCount}</div>
-            <div className="text-sm text-gray-600">OTC Medicines</div>
+            <div className="text-2xl font-bold text-foreground">{otcCount}</div>
+            <div className="text-sm text-muted-foreground">OTC Medicines</div>
           </div>
 
           <div className="text-center">
-            <div className="text-2xl font-bold text-gray-800">
+            <div className="text-2xl font-bold text-foreground">
               {activeCount}
             </div>
-            <div className="text-sm text-gray-600">Active</div>
+            <div className="text-sm text-muted-foreground">Active</div>
           </div>
         </div>
       </div>
 
-      {/* Medicines Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {/* Medicines Grid - 4 cards per row on desktop */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {sortedMedicines.map((medicine) => (
           <MedicineCard key={medicine.id} medicine={medicine} />
         ))}
       </div>
 
       {/* Footer Info */}
-      <div className="mt-8 p-4 bg-gray-50 rounded-lg text-center">
-        <p className="text-gray-600 text-sm">
+      <div className="mt-8 p-4 bg-muted rounded-lg text-center">
+        <p className="text-muted-foreground text-sm">
           Showing {sortedMedicines.length} of {medicines.length} medicines •
           Sorted by: Availability & Stock
         </p>
-        <p className="text-gray-400 text-xs mt-1">
+        <p className="text-muted-foreground/70 text-xs mt-1">
           All medicines are verified and sourced from trusted sellers
         </p>
       </div>

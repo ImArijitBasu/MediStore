@@ -2,32 +2,55 @@
 "use client";
 
 import MedicineComponent from "@/components/medicines/MedicineComponent";
+import { MedicineGridSkeleton } from "@/components/medicines/MedicineCardSkeleton";
 import { MedicineServices } from "@/services/medicine.service";
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import LoadingSpinner from "@/components/layout/loadingSpinner";
+import { Search, SlidersHorizontal, X } from "lucide-react";
 
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+}
 
 const MedicinePage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [medicines, setMedicines] = useState([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [total, setTotal] = useState(0);
   const [pagination, setPagination] = useState<any>(null);
   const [filters, setFilters] = useState<any>(null);
+  const [showFilters, setShowFilters] = useState(false);
 
   // Get current filters from URL
   const currentSearch = searchParams.get("search") || "";
   const currentCategory = searchParams.get("category") || "";
-  const currentManufacturer = searchParams.get("manufacturer") || "";
   const currentMinPrice = searchParams.get("minPrice") || "";
   const currentMaxPrice = searchParams.get("maxPrice") || "";
   const currentPage = searchParams.get("page") || "1";
   const currentSortBy = searchParams.get("sortBy") || "createdAt";
   const currentSortOrder = searchParams.get("sortOrder") || "desc";
   const currentLimit = searchParams.get("limit") || "12";
+
+  // Fetch categories for filter dropdown
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories`);
+        const data = await res.json();
+        if (data.success) {
+          setCategories(data.data || []);
+        }
+      } catch (err) {
+        console.error("Failed to fetch categories", err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   // Fetch medicines with filters
   useEffect(() => {
@@ -39,7 +62,6 @@ const MedicinePage = () => {
         const response = await MedicineServices.getAllMedicines({
           search: currentSearch || undefined,
           category: currentCategory || undefined,
-          manufacturer: currentManufacturer || undefined,
           minPrice: currentMinPrice ? parseFloat(currentMinPrice) : undefined,
           maxPrice: currentMaxPrice ? parseFloat(currentMaxPrice) : undefined,
           page: parseInt(currentPage),
@@ -67,7 +89,6 @@ const MedicinePage = () => {
   }, [
     currentSearch,
     currentCategory,
-    currentManufacturer,
     currentMinPrice,
     currentMaxPrice,
     currentPage,
@@ -79,8 +100,6 @@ const MedicinePage = () => {
   // Handle filter changes
   const updateFilters = (newFilters: Record<string, string>) => {
     const params = new URLSearchParams(searchParams.toString());
-
-    // Update or remove filters
     Object.entries(newFilters).forEach(([key, value]) => {
       if (value) {
         params.set(key, value);
@@ -88,134 +107,222 @@ const MedicinePage = () => {
         params.delete(key);
       }
     });
-
-    // Reset to page 1 when filters change
     params.set("page", "1");
-
     router.push(`/medicines?${params.toString()}`);
   };
 
-  // Handle search
   const handleSearch = (searchTerm: string) => {
     updateFilters({ search: searchTerm });
   };
 
-  // Handle category filter
-  const handleCategoryChange = (category: string) => {
-    updateFilters({ category });
-  };
-
-  // Handle price range filter
-  const handlePriceRangeChange = (min: string, max: string) => {
-    updateFilters({ minPrice: min, maxPrice: max });
-  };
-
-  // Handle sort change
-  const handleSortChange = (sortBy: string, sortOrder: string) => {
-    updateFilters({ sortBy, sortOrder });
-  };
-
-  // Handle pagination
   const handlePageChange = (page: number) => {
-    updateFilters({ page: page.toString() });
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page.toString());
+    router.push(`/medicines?${params.toString()}`);
   };
 
-  if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-8 flex justify-center items-center min-h-[60vh]">
-        <LoadingSpinner size="large" text="Loading medicines..." />
-      </div>
-    );
-  }
+  const sortOptions = [
+    { value: "createdAt:desc", label: "Newest First" },
+    { value: "createdAt:asc", label: "Oldest First" },
+    { value: "price:asc", label: "Price: Low to High" },
+    { value: "price:desc", label: "Price: High to Low" },
+    { value: "name:asc", label: "Name: A to Z" },
+    { value: "name:desc", label: "Name: Z to A" },
+    { value: "rating:desc", label: "Highest Rated" },
+  ];
 
-  if (error) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center py-12">
-          <div className="text-red-500 text-lg mb-4">{error}</div>
-          <p className="text-gray-400">Please try again later.</p>
-        </div>
-      </div>
-    );
-  }
+  const activeFilterCount = [currentSearch, currentCategory, currentMinPrice, currentMaxPrice].filter(Boolean).length;
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Header with stats */}
+      {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Medicines</h1>
-        <p className="text-gray-600">
+        <h1 className="text-3xl font-bold mb-2">Medicines</h1>
+        <p className="text-muted-foreground">
           Browse our collection of {total} medicine{total !== 1 ? "s" : ""}
         </p>
         {pagination && (
-          <p className="text-gray-400 text-sm mt-1">
+          <p className="text-muted-foreground/70 text-sm mt-1">
             Page {pagination.page} of {pagination.totalPages}
           </p>
         )}
       </div>
 
-      {/* Filter Component */}
-      <MedicineFilters
-        currentSearch={currentSearch}
-        currentCategory={currentCategory}
-        currentManufacturer={currentManufacturer}
-        currentMinPrice={currentMinPrice}
-        currentMaxPrice={currentMaxPrice}
-        currentSortBy={currentSortBy}
-        currentSortOrder={currentSortOrder}
-        onSearch={handleSearch}
-        onCategoryChange={handleCategoryChange}
-        onPriceRangeChange={handlePriceRangeChange}
-        onSortChange={handleSortChange}
-      />
-
-      {/* Active filters display */}
-      {filters?.applied && Object.keys(filters.applied).length > 0 && (
-        <div className="mb-6 p-3 bg-blue-50 rounded-lg">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-sm font-medium text-gray-700">
-              Active filters:
-            </span>
-            {Object.entries(filters.applied)
-              .filter(([_, value]) => value !== undefined && value !== "")
-              .map(([key, value]) => (
-                <span
-                  key={key}
-                  className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-200 rounded-full text-sm text-blue-700"
-                >
-                  {key}: {String(value)}
-                  <button
-                    onClick={() => updateFilters({ [key]: "" })}
-                    className="text-blue-400 hover:text-blue-600 ml-1"
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
+      {/* Search & Filter Bar */}
+      <div className="mb-6 space-y-4">
+        <div className="flex flex-col sm:flex-row gap-3">
+          {/* Search */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const formData = new FormData(e.currentTarget);
+              handleSearch(formData.get("search") as string);
+            }}
+            className="flex-1 relative"
+          >
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <input
+              name="search"
+              type="text"
+              defaultValue={currentSearch}
+              placeholder="Search medicines by name, brand, or description..."
+              className="w-full pl-11 pr-20 py-3 border border-border rounded-xl bg-background focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+            />
             <button
-              onClick={() => {
-                // Clear all filters
-                router.push("/medicines");
-              }}
-              className="text-sm text-red-600 hover:text-red-800 ml-auto"
+              type="submit"
+              className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Search
+            </button>
+          </form>
+
+          {/* Sort */}
+          <select
+            value={`${currentSortBy}:${currentSortOrder}`}
+            onChange={(e) => {
+              const [sortBy, sortOrder] = e.target.value.split(":");
+              updateFilters({ sortBy, sortOrder });
+            }}
+            className="px-4 py-3 border border-border rounded-xl bg-background focus:ring-2 focus:ring-blue-500 text-sm min-w-[180px]"
+          >
+            {sortOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+
+          {/* Toggle Filters */}
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className={`flex items-center gap-2 px-4 py-3 border rounded-xl text-sm font-medium transition-colors ${
+              showFilters || activeFilterCount > 0
+                ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
+                : "border-border hover:bg-muted"
+            }`}
+          >
+            <SlidersHorizontal className="h-4 w-4" />
+            Filters
+            {activeFilterCount > 0 && (
+              <span className="h-5 w-5 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center">
+                {activeFilterCount}
+              </span>
+            )}
+          </button>
+        </div>
+
+        {/* Expandable Filters */}
+        {showFilters && (
+          <div className="p-4 bg-muted/50 rounded-xl border space-y-4 animate-in slide-in-from-top-2 duration-200">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* Category Filter */}
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">Category</label>
+                <select
+                  value={currentCategory}
+                  onChange={(e) => updateFilters({ category: e.target.value })}
+                  className="w-full px-3 py-2.5 border border-border rounded-lg bg-background text-sm"
+                >
+                  <option value="">All Categories</option>
+                  {categories.map((cat) => (
+                    <option key={cat.id} value={cat.slug}>{cat.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Min Price */}
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">Min Price ($)</label>
+                <input
+                  type="number"
+                  value={currentMinPrice}
+                  onChange={(e) => updateFilters({ minPrice: e.target.value })}
+                  placeholder="0"
+                  min="0"
+                  step="0.01"
+                  className="w-full px-3 py-2.5 border border-border rounded-lg bg-background text-sm"
+                />
+              </div>
+
+              {/* Max Price */}
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">Max Price ($)</label>
+                <input
+                  type="number"
+                  value={currentMaxPrice}
+                  onChange={(e) => updateFilters({ maxPrice: e.target.value })}
+                  placeholder="Any"
+                  min="0"
+                  step="0.01"
+                  className="w-full px-3 py-2.5 border border-border rounded-lg bg-background text-sm"
+                />
+              </div>
+            </div>
+
+            {activeFilterCount > 0 && (
+              <button
+                onClick={() => router.push("/medicines")}
+                className="text-sm text-red-600 dark:text-red-400 hover:underline flex items-center gap-1"
+              >
+                <X className="h-3 w-3" />
+                Clear all filters
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* Active Filters Pills */}
+        {activeFilterCount > 0 && !showFilters && (
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-sm text-muted-foreground">Active:</span>
+            {currentSearch && (
+              <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-full text-sm text-blue-700 dark:text-blue-300">
+                Search: {currentSearch}
+                <button onClick={() => updateFilters({ search: "" })} className="hover:text-blue-900 dark:hover:text-blue-100">×</button>
+              </span>
+            )}
+            {currentCategory && (
+              <span className="inline-flex items-center gap-1 px-3 py-1 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-full text-sm text-purple-700 dark:text-purple-300">
+                Category: {currentCategory}
+                <button onClick={() => updateFilters({ category: "" })} className="hover:text-purple-900 dark:hover:text-purple-100">×</button>
+              </span>
+            )}
+            {(currentMinPrice || currentMaxPrice) && (
+              <span className="inline-flex items-center gap-1 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-full text-sm text-emerald-700 dark:text-emerald-300">
+                Price: ${currentMinPrice || "0"} - ${currentMaxPrice || "∞"}
+                <button onClick={() => updateFilters({ minPrice: "", maxPrice: "" })} className="hover:text-emerald-900 dark:hover:text-emerald-100">×</button>
+              </span>
+            )}
+            <button
+              onClick={() => router.push("/medicines")}
+              className="text-sm text-red-600 dark:text-red-400 hover:underline"
             >
               Clear all
             </button>
           </div>
+        )}
+      </div>
+
+      {/* Content */}
+      {loading ? (
+        <MedicineGridSkeleton count={12} />
+      ) : error ? (
+        <div className="text-center py-12">
+          <div className="text-red-500 dark:text-red-400 text-lg mb-4">{error}</div>
+          <p className="text-muted-foreground">Please try again later.</p>
         </div>
+      ) : (
+        <MedicineComponent medicines={medicines} />
       )}
 
-      {/* Medicines Grid */}
-      <MedicineComponent medicines={medicines} />
-
       {/* Pagination */}
-      {pagination && pagination.totalPages > 1 && (
+      {!loading && pagination && pagination.totalPages > 1 && (
         <div className="mt-8 flex justify-center">
           <div className="flex items-center gap-2">
             <button
               onClick={() => handlePageChange(pagination.page - 1)}
               disabled={pagination.page <= 1}
-              className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+              className="px-4 py-2 border border-border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted transition-colors text-sm"
             >
               Previous
             </button>
@@ -238,10 +345,10 @@ const MedicinePage = () => {
                   <button
                     key={pageNum}
                     onClick={() => handlePageChange(pageNum)}
-                    className={`px-4 py-2 border rounded-lg ${
+                    className={`px-4 py-2 border rounded-lg text-sm transition-colors ${
                       pagination.page === pageNum
                         ? "bg-blue-600 text-white border-blue-600"
-                        : "border-gray-300 hover:bg-gray-50"
+                        : "border-border hover:bg-muted"
                     }`}
                   >
                     {pageNum}
@@ -253,170 +360,13 @@ const MedicinePage = () => {
             <button
               onClick={() => handlePageChange(pagination.page + 1)}
               disabled={pagination.page >= pagination.totalPages}
-              className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+              className="px-4 py-2 border border-border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted transition-colors text-sm"
             >
               Next
             </button>
           </div>
         </div>
       )}
-    </div>
-  );
-};
-
-// Filter Component
-const MedicineFilters = ({
-  currentSearch,
-  currentCategory,
-  currentManufacturer,
-  currentMinPrice,
-  currentMaxPrice,
-  currentSortBy,
-  currentSortOrder,
-  onSearch,
-  onCategoryChange,
-  onPriceRangeChange,
-  onSortChange,
-}: {
-  currentSearch: string;
-  currentCategory: string;
-  currentManufacturer: string;
-  currentMinPrice: string;
-  currentMaxPrice: string;
-  currentSortBy: string;
-  currentSortOrder: string;
-  onSearch: (term: string) => void;
-  onCategoryChange: (category: string) => void;
-  onPriceRangeChange: (min: string, max: string) => void;
-  onSortChange: (sortBy: string, sortOrder: string) => void;
-}) => {
-  const [searchInput, setSearchInput] = useState(currentSearch);
-
-  const sortOptions = [
-    { value: "createdAt:desc", label: "Newest First" },
-    { value: "createdAt:asc", label: "Oldest First" },
-    { value: "price:asc", label: "Price: Low to High" },
-    { value: "price:desc", label: "Price: High to Low" },
-    { value: "name:asc", label: "Name: A to Z" },
-    { value: "name:desc", label: "Name: Z to A" },
-    { value: "rating:desc", label: "Highest Rated" },
-  ];
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSearch(searchInput);
-  };
-
-  const handlePriceSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    const min = (form.elements.namedItem("minPrice") as HTMLInputElement).value;
-    const max = (form.elements.namedItem("maxPrice") as HTMLInputElement).value;
-    onPriceRangeChange(min, max);
-  };
-
-  return (
-    <div className="mb-6 space-y-4">
-      {/* Search Bar */}
-      <div className="flex gap-4">
-        <form onSubmit={handleSearchSubmit} className="flex-1">
-          <div className="relative">
-            <input
-              type="text"
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              placeholder="Search medicines by name, brand, or description..."
-              className="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-            <div className="absolute left-4 top-3.5 text-gray-400">
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </div>
-            <button
-              type="submit"
-              className="absolute right-2 top-2 px-4 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-              Search
-            </button>
-          </div>
-        </form>
-
-        {/* Sort Dropdown */}
-        <div className="w-64">
-          <select
-            value={`${currentSortBy}:${currentSortOrder}`}
-            onChange={(e) => {
-              const [sortBy, sortOrder] = e.target.value.split(":");
-              onSortChange(sortBy, sortOrder);
-            }}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            {sortOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      {/* Price Filter */}
-      <div className="bg-gray-50 p-4 rounded-lg">
-        <h3 className="font-medium text-gray-700 mb-3">Price Range</h3>
-        <form onSubmit={handlePriceSubmit} className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <span className="text-gray-600">$</span>
-            <input
-              type="number"
-              name="minPrice"
-              defaultValue={currentMinPrice}
-              placeholder="Min"
-              min="0"
-              step="0.01"
-              className="w-32 px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-          <span className="text-gray-400">to</span>
-          <div className="flex items-center gap-2">
-            <span className="text-gray-600">$</span>
-            <input
-              type="number"
-              name="maxPrice"
-              defaultValue={currentMaxPrice}
-              placeholder="Max"
-              min="0"
-              step="0.01"
-              className="w-32 px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-          <button
-            type="submit"
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
-          >
-            Apply
-          </button>
-          {currentMinPrice && (
-            <button
-              type="button"
-              onClick={() => onPriceRangeChange("", "")}
-              className="text-sm text-red-600 hover:text-red-800"
-            >
-              Clear
-            </button>
-          )}
-        </form>
-      </div>
     </div>
   );
 };

@@ -40,13 +40,13 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ medicine }) => {
             viewBox="0 0 20 20"
           >
             <defs>
-              <linearGradient id="half-gradient">
+              <linearGradient id={`half-gradient-${medicine.id}-${i}`}>
                 <stop offset="50%" stopColor="#fbbf24" />
                 <stop offset="50%" stopColor="#d1d5db" />
               </linearGradient>
             </defs>
             <path
-              fill="url(#half-gradient)"
+              fill={`url(#half-gradient-${medicine.id}-${i})`}
               d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
             />
           </svg>,
@@ -55,7 +55,7 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ medicine }) => {
         stars.push(
           <svg
             key={i}
-            className="w-4 h-4 text-gray-300 fill-current"
+            className="w-4 h-4 text-gray-300 dark:text-gray-600 fill-current"
             viewBox="0 0 20 20"
           >
             <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
@@ -67,25 +67,25 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ medicine }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-blue-100">
+    <div className="bg-card rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 border border-border hover:border-blue-200 dark:hover:border-blue-500/30 flex flex-col h-full">
       <div className="px-4 pt-4 pb-2">
         <div className="flex justify-between items-start">
-          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">
             {medicine.category?.name || "Uncategorized"}
           </span>
 
           <span
             className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
               medicine.isOtc
-                ? "bg-green-50 text-green-700"
-                : "bg-purple-50 text-purple-700"
+                ? "bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300"
+                : "bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300"
             }`}
           >
             {medicine.isOtc ? "OTC" : "Rx"}
           </span>
         </div>
       </div>
-      <div className="h-48 bg-linear-to-br from-blue-50 to-indigo-50 flex items-center justify-center relative">
+      <div className="h-48 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center relative">
         {medicine.thumbnail ? (
           <div className="relative w-32 h-32">
             <Image
@@ -98,10 +98,10 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ medicine }) => {
           </div>
         ) : (
           <div className="text-center">
-            <div className="w-24 h-24 mx-auto bg-white rounded-full flex items-center justify-center shadow-inner border border-gray-100">
+            <div className="w-24 h-24 mx-auto bg-white dark:bg-gray-700 rounded-full flex items-center justify-center shadow-inner border border-gray-100 dark:border-gray-600">
               <span className="text-3xl font-bold text-blue-400">💊</span>
             </div>
-            <p className="mt-3 text-gray-500 text-sm font-medium">
+            <p className="mt-3 text-muted-foreground text-sm font-medium">
               {medicine.brandName}
             </p>
           </div>
@@ -111,8 +111,8 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ medicine }) => {
           <span
             className={`px-3 py-1 rounded-full text-xs font-semibold ${
               isInStock
-                ? "bg-green-100 text-green-800"
-                : "bg-red-100 text-red-800"
+                ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300"
+                : "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300"
             }`}
           >
             {isInStock ? `${stockQuantity} in stock` : "Out of Stock"}
@@ -120,18 +120,18 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ medicine }) => {
         </div>
       </div>
 
-      <div className="p-5">
+      <div className="p-5 flex flex-col flex-1">
         <div className="mb-4">
-          <h3 className="text-lg font-bold text-gray-800 mb-1 line-clamp-1">
+          <h3 className="text-lg font-bold text-foreground mb-1 line-clamp-1">
             {medicine.name}
           </h3>
 
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-sm font-medium text-gray-600">
+            <span className="text-sm font-medium text-muted-foreground">
               {medicine.brandName}
             </span>
             {medicine.genericName && (
-              <span className="text-xs text-gray-500 bg-gray-50 px-2 py-0.5 rounded">
+              <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
                 {medicine.genericName}
               </span>
             )}
@@ -139,16 +139,16 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ medicine }) => {
 
           <div className="flex items-center gap-2 mb-3">
             <div className="flex items-center">{renderStars()}</div>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-muted-foreground">
               ({medicine.rating.toFixed(1)})
             </span>
-            <span className="text-sm text-gray-400">
+            <span className="text-sm text-muted-foreground/70">
               • {medicine._count?.reviews || 0} reviews
             </span>
           </div>
 
           {medicine.description && (
-            <p className="text-gray-600 text-sm line-clamp-2 mb-3">
+            <p className="text-muted-foreground text-sm line-clamp-2 mb-3">
               {medicine.description}
             </p>
           )}
@@ -156,8 +156,8 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ medicine }) => {
 
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-gray-500">Available from:</span>
-            <span className="text-sm font-medium text-gray-700">
+            <span className="text-sm text-muted-foreground">Available from:</span>
+            <span className="text-sm font-medium text-foreground">
               {medicine.sellers?.length || 0} seller
               {medicine.sellers?.length !== 1 ? "s" : ""}
             </span>
@@ -168,48 +168,48 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ medicine }) => {
               key={sellerInfo.id}
               className="flex items-center justify-between text-sm mb-1"
             >
-              <span className="text-gray-600 truncate pr-2">
+              <span className="text-muted-foreground truncate pr-2">
                 {index + 1}. {sellerInfo.seller?.name}
               </span>
-              <span className="font-medium text-gray-800 whitespace-nowrap">
+              <span className="font-medium text-foreground whitespace-nowrap">
                 ${sellerInfo.price.toFixed(2)}
               </span>
             </div>
           ))}
 
           {medicine.sellers?.length && medicine.sellers.length > 2 && (
-            <div className="text-xs text-gray-400 mt-1">
+            <div className="text-xs text-muted-foreground/70 mt-1">
               +{medicine.sellers.length - 2} more seller
               {medicine.sellers.length - 2 !== 1 ? "s" : ""}
             </div>
           )}
         </div>
 
-        <div className="pt-4 border-t border-gray-100">
+        <div className="pt-4 border-t border-border mt-auto">
           <div className="flex items-center justify-between mb-4">
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-2xl font-bold text-gray-800">
+                <span className="text-2xl font-bold text-foreground">
                   ${discountedPrice.toFixed(2)}
                 </span>
 
                 {discount > 0 && (
                   <>
-                    <span className="text-sm text-gray-400 line-through">
+                    <span className="text-sm text-muted-foreground line-through">
                       ${price.toFixed(2)}
                     </span>
-                    <span className="px-2 py-0.5 bg-red-100 text-red-700 text-xs font-bold rounded">
+                    <span className="px-2 py-0.5 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-xs font-bold rounded">
                       {discount}% OFF
                     </span>
                   </>
                 )}
               </div>
-              <div className="text-xs text-gray-500 mt-1">Per unit</div>
+              <div className="text-xs text-muted-foreground mt-1">Per unit</div>
             </div>
             <div className="flex gap-2">
               <Link
                 href={`/medicines/${medicine.id}`}
-                className="px-4 py-2 border border-blue-600 text-blue-600 text-sm font-medium rounded-lg hover:bg-blue-50 transition-colors duration-200 flex items-center justify-center"
+                className="px-4 py-2 border border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400 text-sm font-medium rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors duration-200 flex items-center justify-center"
                 title="View Details"
               >
                 <svg
@@ -235,8 +235,8 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ medicine }) => {
             </div>
           </div>
         </div>
-        <div className="mt-4 pt-3 border-t border-gray-100">
-          <div className="flex items-center justify-between text-xs text-gray-500">
+        <div className="mt-4 pt-3 border-t border-border">
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
             <span className="flex items-center gap-1">
               <svg
                 className="w-3 h-3"
@@ -255,7 +255,7 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ medicine }) => {
             </span>
             <span
               className={`flex items-center gap-1 ${
-                medicine.isActive ? "text-green-600" : "text-red-600"
+                medicine.isActive ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
               }`}
             >
               <div

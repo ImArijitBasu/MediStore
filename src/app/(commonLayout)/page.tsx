@@ -3,29 +3,53 @@ import { FeaturedMedicinesSkeleton } from "@/components/homepage/FeaturedMedicin
 import { HeroSection } from "@/components/homepage/HeroSection";
 import MedicineCategory from "@/components/homepage/MedicineCategory";
 import TrustJourneySection from "@/components/homepage/TrustJourney";
+import StatsCounter from "@/components/homepage/StatsCounter";
+import Testimonials from "@/components/homepage/Testimonials";
+import WhyChooseUs from "@/components/homepage/WhyChooseUs";
+import HealthBlog from "@/components/homepage/HealthBlog";
+import FAQ from "@/components/homepage/FAQ";
+import Newsletter from "@/components/homepage/Newsletter";
 import LoadingSpinner from "@/components/layout/loadingSpinner";
-import { Button } from "@/components/ui/button";
-import { userService } from "@/services/user.service";
-import Image from "next/image";
-import Link from "next/link";
 import { Suspense } from "react";
 
 export default async function Home() {
-    const { data } = await userService.getSession();
-    const userInfo = data?.user.email;
   return (
-    <div className="">
+    <div>
+      {/* 1. Hero Section */}
       <HeroSection />
-      <Suspense fallback={<FeaturedMedicinesSkeleton/>}>
+
+      {/* 2. Stats Counter */}
+      <StatsCounter />
+
+      {/* 3. Featured Medicines */}
+      <Suspense fallback={<FeaturedMedicinesSkeleton />}>
         <FeaturedMedicines />
       </Suspense>
-      <Suspense fallback={<LoadingSpinner/>}>
-        <MedicineCategory/>
+
+      {/* 4. Why Choose Us */}
+      <WhyChooseUs />
+
+      {/* 5. Categories */}
+      <Suspense fallback={<LoadingSpinner />}>
+        <MedicineCategory />
       </Suspense>
-      <Suspense fallback={<LoadingSpinner/>}>
-        <TrustJourneySection/>
+
+      {/* 6. Trust Journey / How It Works */}
+      <Suspense fallback={<LoadingSpinner />}>
+        <TrustJourneySection />
       </Suspense>
-      
+
+      {/* 7. Testimonials */}
+      <Testimonials />
+
+      {/* 8. Health Blog */}
+      <HealthBlog />
+
+      {/* 9. FAQ */}
+      <FAQ />
+
+      {/* 10. Newsletter CTA */}
+      <Newsletter />
     </div>
   );
 }

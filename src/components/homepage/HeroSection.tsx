@@ -38,7 +38,7 @@ export function HeroSection({ className }: HeroSectionProps) {
   };
 
   return (
-    <section className={cn("relative overflow-hidden", className)}>
+    <section className={cn("relative overflow-hidden max-h-[70vh]", className)}>
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-linear-to-br from-blue-50/50 via-white to-cyan-50/30 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900" />
 

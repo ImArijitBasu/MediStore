@@ -10,8 +10,11 @@ import {
   Heart,
   Shield,
   Truck,
-  MessageSquare,
   ChevronUp,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -83,8 +86,24 @@ export default function MediStoreFooter() {
               </div>
               <p className="text-muted-foreground text-sm">
                 We provide genuine medicines with fast delivery. Your health is
-                our priority.
+                our priority. Browse 500+ verified medicines from trusted pharmacies.
               </p>
+            </div>
+
+            {/* Social Links */}
+            <div className="flex items-center gap-3">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-muted hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors group" aria-label="Facebook">
+                <Facebook className="h-4 w-4 text-muted-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-muted hover:bg-sky-100 dark:hover:bg-sky-900/30 transition-colors group" aria-label="Twitter">
+                <Twitter className="h-4 w-4 text-muted-foreground group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors" />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-muted hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors group" aria-label="Instagram">
+                <Instagram className="h-4 w-4 text-muted-foreground group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors" />
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-muted hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors group" aria-label="LinkedIn">
+                <Linkedin className="h-4 w-4 text-muted-foreground group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors" />
+              </a>
             </div>
 
             {/* Newsletter */}
@@ -110,7 +129,8 @@ export default function MediStoreFooter() {
                   </Button>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  By subscribing, you agree to our Privacy Policy
+                  By subscribing, you agree to our{" "}
+                  <Link href="/privacy" className="underline hover:text-foreground">Privacy Policy</Link>
                 </p>
               </form>
             </div>
@@ -122,10 +142,11 @@ export default function MediStoreFooter() {
             <ul className="space-y-2">
               {[
                 { text: "Home", href: "/" },
-                { text: "Shop Medicines", href: "/shop" },
+                { text: "Shop Medicines", href: "/medicines" },
                 { text: "Categories", href: "/categories" },
-                { text: "Track Order", href: "/track-order" },
-                { text: "FAQs", href: "/faq" },
+                { text: "About Us", href: "/about" },
+                { text: "Blog", href: "/blog" },
+                { text: "Help Center", href: "/help" },
               ].map((link) => (
                 <li key={link.text}>
                   <Link
@@ -205,10 +226,10 @@ export default function MediStoreFooter() {
                 Terms of Service
               </Link>
               <Link
-                href="/shipping"
+                href="/help"
                 className="text-xs text-muted-foreground hover:text-foreground"
               >
-                Shipping Policy
+                Help Center
               </Link>
               <Link
                 href="/contact"

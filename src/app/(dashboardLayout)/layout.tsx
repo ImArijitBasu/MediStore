@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/sidebar";
 import { Roles } from "../../constants/roles";
 import { userService } from "@/services/user.service";
+import { ModeToggle } from "@/components/layout/themeControl";
+import DashboardProfileDropdown from "@/components/dashboard/DashboardProfileDropdown";
 
 export default async function DashboardLayout({
   admin,
@@ -30,19 +32,27 @@ export default async function DashboardLayout({
     <SidebarProvider>
       <AppSidebar user={userInfo} />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-          <SidebarTrigger className="-ml-1" />
-          <Separator
-            orientation="vertical"
-            className="mr-2 data-[orientation=vertical]:h-4"
-          />
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/">Home</BreadcrumbLink>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+        <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4">
+          <div className="flex items-center gap-2">
+            <SidebarTrigger className="-ml-1" />
+            <Separator
+              orientation="vertical"
+              className="mr-2 data-[orientation=vertical]:h-4"
+            />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem className="hidden md:block">
+                  <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+
+          {/* Right side: theme toggle + profile dropdown */}
+          <div className="flex items-center gap-2">
+            <ModeToggle />
+            <DashboardProfileDropdown user={userInfo} />
+          </div>
         </header>
         {userInfo.role === Roles.admin
           ? admin
