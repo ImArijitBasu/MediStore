@@ -1,63 +1,49 @@
-"use client";
-
 import { OverviewCardsGrid } from "@/components/dashboard/OverviewCards";
 import DashboardChart from "@/components/dashboard/DashboardChart";
 import { Package, ShoppingCart, DollarSign, TrendingUp } from "lucide-react";
+import { userService } from "@/services/user.service";
 
-const salesData = [
-  { name: "Jan", sales: 12 },
-  { name: "Feb", sales: 19 },
-  { name: "Mar", sales: 25 },
-  { name: "Apr", sales: 32 },
-  { name: "May", sales: 28 },
-  { name: "Jun", sales: 35 },
-];
 
-const revenueData = [
-  { name: "Jan", revenue: 1200 },
-  { name: "Feb", revenue: 1900 },
-  { name: "Mar", revenue: 2500 },
-  { name: "Apr", revenue: 3200 },
-  { name: "May", revenue: 2800 },
-  { name: "Jun", revenue: 3500 },
-];
 
-const overviewCards = [
-  {
-    title: "My Medicines",
-    value: "48",
-    description: "Listed products",
-    icon: Package,
-    trend: { value: 5, isPositive: true },
-    color: "text-blue-600 dark:text-blue-400",
-  },
-  {
-    title: "Total Orders",
-    value: "156",
-    description: "All time orders",
-    icon: ShoppingCart,
-    trend: { value: 18, isPositive: true },
-    color: "text-emerald-600 dark:text-emerald-400",
-  },
-  {
-    title: "Revenue",
-    value: "$15,200",
-    description: "This month",
-    icon: DollarSign,
-    trend: { value: 25, isPositive: true },
-    color: "text-purple-600 dark:text-purple-400",
-  },
-  {
-    title: "Growth",
-    value: "+18%",
-    description: "vs last month",
-    icon: TrendingUp,
-    trend: { value: 18, isPositive: true },
-    color: "text-amber-600 dark:text-amber-400",
-  },
-];
+export default async function SellerDashboardPage() {
+  const statsRes = await userService.getUserStats();
+  const stats = statsRes?.data || { medicines: 0, orders: 0, revenue: 0 };
 
-export default function SellerDashboardPage() {
+  const overviewCards = [
+    {
+      title: "My Medicines",
+      value: stats.medicines?.toString() || "0",
+      description: "Listed products",
+      icon: Package,
+      trend: { value: 5, isPositive: true },
+      color: "text-blue-600 dark:text-blue-400",
+    },
+    {
+      title: "Total Orders",
+      value: stats.orders?.toString() || "0",
+      description: "All time orders",
+      icon: ShoppingCart,
+      trend: { value: 18, isPositive: true },
+      color: "text-emerald-600 dark:text-emerald-400",
+    },
+    {
+      title: "Revenue",
+      value: `$${stats.revenue?.toLocaleString() || "0"}`,
+      description: "All time revenue",
+      icon: DollarSign,
+      trend: { value: 25, isPositive: true },
+      color: "text-purple-600 dark:text-purple-400",
+    },
+    {
+      title: "Growth",
+      value: "+18%",
+      description: "vs last month",
+      icon: TrendingUp,
+      trend: { value: 18, isPositive: true },
+      color: "text-amber-600 dark:text-amber-400",
+    },
+  ];
+
   return (
     <div className="p-6 space-y-6">
       <div>
@@ -70,15 +56,15 @@ export default function SellerDashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <DashboardChart
           title="Monthly Sales"
-          description="Number of orders per month"
-          data={salesData}
+          description="Number of items sold per month"
+          data={stats.charts?.salesData || []}
           type="bar"
           dataKey="sales"
         />
         <DashboardChart
           title="Revenue Trend"
           description="Revenue growth over time"
-          data={revenueData}
+          data={stats.charts?.revenueData || []}
           type="line"
           dataKey="revenue"
           colors={["#10b981"]}

@@ -32,4 +32,19 @@ export const userService = {
       };
     }
   },
+
+  getUserStats: async function () {
+    try {
+      const cookieStore = await cookies();
+      const res = await fetch(`${AUTH_URL}/api/user/stats`, {
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+        next: { revalidate: 0 }, // always get fresh stats
+      });
+      return await res.json();
+    } catch (error: any) {
+      return { success: false, message: error.message, data: null };
+    }
+  },
 };

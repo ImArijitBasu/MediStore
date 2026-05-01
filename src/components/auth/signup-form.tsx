@@ -86,10 +86,14 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
   const handleGoogleSignup = async () => {
     setIsGoogleLoading(true);
     try {
-      await authClient.signIn.social({
+      const { data, error } = await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/",
+        callbackURL: typeof window !== "undefined" ? window.location.origin : "/",
       });
+      if (error) {
+        toast.error(error.message || "Google sign-up failed.");
+        setIsGoogleLoading(false);
+      }
     } catch (err) {
       toast.error("Google sign-up failed. Please try again.");
       setIsGoogleLoading(false);

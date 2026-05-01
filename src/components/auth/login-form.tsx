@@ -48,7 +48,7 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
         const { data, error } = await authClient.signIn.email({
           email: value.email,
           password: value.password,
-          callbackURL: "/", 
+          callbackURL: typeof window !== "undefined" ? window.location.origin : "/", 
         });
 
         if (error) {
@@ -74,7 +74,7 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
       const { data, error } = await authClient.signIn.email({
         email: "customer@demo.com",
         password: "Demo1234!",
-        callbackURL: "/",
+        callbackURL: typeof window !== "undefined" ? window.location.origin : "/",
       });
 
       if (error) {
@@ -94,10 +94,13 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
   const handleGoogleLogin = async () => {
     setIsGoogleLoading(true);
     try {
-      await authClient.signIn.social({
+      const { data, error } = await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/",
+        callbackURL: typeof window !== "undefined" ? window.location.origin : "/",
       });
+      if (error) {
+        toast.error(error.message || "Google login failed.");
+      }
     } catch (err) {
       toast.error("Google login failed. Please try again.");
       setIsGoogleLoading(false);

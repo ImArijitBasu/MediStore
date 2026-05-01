@@ -8,7 +8,7 @@ const FeaturedMedicines = async () => {
 
   const featuredMedicines = featuredResult?.data?.data?.medicines;
 
-  if (featuredMedicines.length === 0) {
+  if (!featuredMedicines || featuredMedicines.length === 0) {
     return (
       <div className="text-red-500 font-extrabold text-xl p-10 mx-auto">
         Network connection error

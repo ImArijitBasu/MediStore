@@ -51,6 +51,8 @@ export default function ProfileForm({ initialData }: { initialData: any }) {
               <Image
                 src={initialData.image}
                 alt="Profile"
+                width={64}
+                height={64}
                 className="h-full w-full rounded-full object-cover"
               />
             ) : (
