@@ -3,17 +3,26 @@
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 function LogoutButton() {
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogout = async () => {
+  const handleLogout = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     setIsLoading(true);
-    await authClient.signOut();
-    router.push("/");
-    router.refresh();
+
+    try {
+      await authClient.signOut();
+      toast.success("Logged out successfully!");
+      // Use hard navigation to fully clear client state and avoid
+      // stale server-component session re-fetches in dashboard layouts
+      window.location.href = "/";
+    } catch (error) {
+      toast.error("Failed to logout. Please try again.");
+      setIsLoading(false);
+    }
   };
 
   return (

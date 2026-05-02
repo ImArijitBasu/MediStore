@@ -70,7 +70,7 @@ export default function DashboardProfileDropdown({ user }: DashboardProfileDropd
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="p-0">
+        <DropdownMenuItem className="p-0" onSelect={(e) => e.preventDefault()}>
           <LogoutButton />
         </DropdownMenuItem>
       </DropdownMenuContent>
